@@ -22,6 +22,11 @@ def sobreviventeDetail(request, pk):
 
 @api_view(['GET'])
 def alertaInfectado(request, info, cont):
+
+    if info == cont:
+        return Response("O informante nao pode ser o mesmo sobrevivente do relato", status=status.HTTP_200_OK)
+
+
     sobrevivente = SobreviventeModel.objects.get(id=cont)
     
     contaminacao = ContaminacaoModel.objects.filter(informante=info, infectado=cont)
