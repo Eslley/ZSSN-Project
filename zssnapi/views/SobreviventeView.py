@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from zssnapi.models import SobreviventeModel, ContaminacaoModel
 from zssnapi.serializers import SobreviventeSerializer
 from zssnapi.serializers.ContaminacaoSerializer import ContaminacaoSerializer
+from zssnapi.serializers.InventarioSerializer import InventarioSerializer
 
 @api_view(['GET'])
 def sobreviventesList(request):
@@ -25,7 +26,6 @@ def alertaInfectado(request, info, cont):
 
     if info == cont:
         return Response("O informante nao pode ser o mesmo sobrevivente do relato", status=status.HTTP_200_OK)
-
 
     sobrevivente = SobreviventeModel.objects.get(id=cont)
     
@@ -53,12 +53,29 @@ def alertaInfectado(request, info, cont):
 
 @api_view(['POST'])
 def sobreviventeCreate(request):
-    serializer = SobreviventeSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.data.get('inventario') == None:
+        return Response("É necessário declarar os itens do inventário", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        serializer = SobreviventeSerializer(data=request.data)
+        if serializer.is_valid():
+            s = serializer.save()
+
+            inventario = request.data.get('inventario')
+
+            for i in inventario:
+                serializerI = InventarioSerializer(data={
+                    "sobrevivente": s.id,
+                    "item": i.get('id'),
+                    "quantidade": i.get('quantidade')
+                })
+
+                if serializerI.is_valid():
+                    serializerI.save()
+        
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
 def sobreviventeDelete(request, pk):
