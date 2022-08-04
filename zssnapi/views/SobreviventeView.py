@@ -1,5 +1,4 @@
 import json
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -48,13 +47,10 @@ def sobreviventeUpdate(request, pk):
 @api_view(['PUT'])
 def sobreviventeUpdateLocalization(request, pk):
     sobrevivente = SobreviventeModel.objects.get(id=pk)
+    
+    sobrevivente.latitude = request.data.get('latitude')
 
-    body_unicode = request.body.decode('utf-8') 	
-    data = json.loads(body_unicode) 	
-
-    sobrevivente.latitude = data['latitude']
-
-    sobrevivente.longitude = data['longitude']
+    sobrevivente.longitude = request.data.get('longitude')
 
     sobrevivente.save(update_fields=['latitude', 'longitude'])
 
