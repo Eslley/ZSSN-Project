@@ -13,4 +13,5 @@ class SobreviventeModel(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     estaInfectado = models.BooleanField(default=False)
+    countAlertInfected = models.IntegerField(default=0)
     createAt = models.DateField(auto_now_add=True)

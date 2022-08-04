@@ -19,6 +19,22 @@ def sobreviventeDetail(request, pk):
     
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def alertaInfectado(request, pk):
+    sobrevivente = SobreviventeModel.objects.get(id=pk)
+    
+    if sobrevivente.estaInfectado:
+        return Response(sobrevivente.nome + " já está infectado", status=status.HTTP_200_OK)
+    else:
+        sobrevivente.countAlertInfected += 1
+        if sobrevivente.countAlertInfected == 3:
+            sobrevivente.estaInfectado = True
+            sobrevivente.save(update_fields=['estaInfectado', 'countAlertInfected'])
+        else:
+            sobrevivente.save(update_fields=['countAlertInfected'])
+    
+        return Response("O alerta de infecção foi recebido", status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 def sobreviventeCreate(request):
     serializer = SobreviventeSerializer(data=request.data)
