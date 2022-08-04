@@ -1,26 +1,22 @@
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import api_view
 from zssnapi.models import ItemModel
 from zssnapi.serializers import ItemSerializer
 
-class ItemList(APIView):
-
-    def get(self, request):
-        itens = ItemModel.objects.all()
-        serializer = ItemSerializer(itens, many=True)
-        
-        return Response(serializer.data, status=status.HTTP_200_OK)
+@api_view(['GET'])
+def itensList(request):
+    itens = ItemModel.objects.all()
+    serializer = ItemSerializer(itens, many=True)
     
-    def post(self, request):
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
-        data = {
-            'nome': request.data.get('nome'), 
-            'pontos': request.data.get('pontos'), 
-        }
-        serializer = ItemSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+@api_view(['POST'])
+def itemCreate(request):
+    serializer = ItemSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
