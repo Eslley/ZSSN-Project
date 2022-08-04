@@ -2,8 +2,9 @@ import json
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from zssnapi.models import SobreviventeModel
+from zssnapi.models import SobreviventeModel, ContaminacaoModel
 from zssnapi.serializers import SobreviventeSerializer
+from zssnapi.serializers.ContaminacaoSerializer import ContaminacaoSerializer
 
 @api_view(['GET'])
 def sobreviventesList(request):
@@ -20,12 +21,22 @@ def sobreviventeDetail(request, pk):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def alertaInfectado(request, pk):
-    sobrevivente = SobreviventeModel.objects.get(id=pk)
+def alertaInfectado(request, info, cont):
+    sobrevivente = SobreviventeModel.objects.get(id=cont)
     
+    contaminacao = ContaminacaoModel.objects.filter(informante=info, infectado=cont)
+
     if sobrevivente.estaInfectado:
         return Response(sobrevivente.nome + " já está infectado", status=status.HTTP_200_OK)
     else:
+        if contaminacao.count():
+            return Response("Alerta sobre " + sobrevivente.nome + " já registrado", status=status.HTTP_200_OK)
+        else:
+            serializer = ContaminacaoSerializer(data={"informante": info, "infectado": cont})
+
+            if serializer.is_valid():
+                serializer.save()
+
         sobrevivente.countAlertInfected += 1
         if sobrevivente.countAlertInfected == 3:
             sobrevivente.estaInfectado = True

@@ -8,6 +8,6 @@ urlpatterns = [
     path('update/<str:pk>/', SobreviventeView.sobreviventeUpdate, name='sobrevivente-update'),
     path('update/<str:pk>/localization/', SobreviventeView.sobreviventeUpdateLocalization, name='sobrevivente-update-localization'),
     path('delete/<str:pk>/', SobreviventeView.sobreviventeDelete, name='sobrevivente-delete'),
-    path('<str:pk>/infectado', SobreviventeView.alertaInfectado, name='sobrevivente-infectado'),
+    path('<str:info>/contaminacao/<str:cont>', SobreviventeView.alertaInfectado, name='sobrevivente-infectado'),
 
 ]
