@@ -1,7 +1,9 @@
 from django.urls import path
-from zssnapi.views import InventarioList
+from zssnapi.views import InventarioView
 
 urlpatterns = [
-    path('inventarios/', InventarioList.as_view()),
+    path('', InventarioView.inventariosList, name='inventarios'),
+    path('sobrevivente/<str:fk>/', InventarioView.inventarioDetail, name='inventario-sobrevivente'),
+    path('create', InventarioView.inventarioCreate, name='inventario-create'),
 
 ]
