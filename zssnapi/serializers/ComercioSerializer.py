@@ -37,13 +37,10 @@ class ComercioSerializer(serializers.Serializer):
             countPoints2 += itens["pontos"] * itens["quantidade"]
 
         if countPoints1 != countPoints2:
-            raise serializers.ValidationError('Quantidade de pontos diferente')
+            raise serializers.ValidationError('Quantidade de pontos oferecidos diferente')
 
         isInfectado1 = SobreviventeModel.objects.get(id=data['sobrevivente1']['sobrevivente']).estaInfectado
         isInfectado2 = SobreviventeModel.objects.get(id=data['sobrevivente2']['sobrevivente']).estaInfectado
-
-        print(isInfectado1)
-        print(isInfectado2)
         
         if isInfectado1 or isInfectado2:
             raise serializers.ValidationError('Sobrevivente infectado, a troca não é possível')
