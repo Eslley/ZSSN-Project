@@ -14,5 +14,6 @@ class InventarioSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
             'sobrevivente': SobreviventeSerializer(instance.sobrevivente).data['nome'],
-            'item': ItemSerializer(instance.item).data
+            'item': ItemSerializer(instance.item).data,
+            'quantidade': instance.quantidade
         }
