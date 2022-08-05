@@ -18,9 +18,10 @@ def inventarioDetail(request, fk):
     if isInfectado:
         return Response("Não é possível acessar inventário, sobrevivente infectado", status=status.HTTP_200_OK)
     else:
-        inventarios = InventarioModel.objects.filter(sobrevivente=fk).values('item', 'quantidade')
+        inventarios = InventarioModel.objects.filter(sobrevivente=fk)
+        serializer = InventarioSerializer(inventarios, many=True)
     
-        return Response(inventarios, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def inventarioCreate(request):

@@ -15,3 +15,6 @@ class SobreviventeModel(models.Model):
     estaInfectado = models.BooleanField(default=False)
     countAlertInfected = models.IntegerField(default=0)
     createAt = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nome
