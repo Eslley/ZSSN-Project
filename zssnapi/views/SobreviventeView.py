@@ -25,17 +25,17 @@ def sobreviventeDetail(request, pk):
 def alertaInfectado(request, info, cont):
 
     if info == cont:
-        return Response("O informante nao pode ser o mesmo sobrevivente do relato", status=status.HTTP_200_OK)
+        return Response({'message': 'O informante nao pode ser o mesmo sobrevivente do relato'}, status=status.HTTP_200_OK)
 
     sobrevivente = SobreviventeModel.objects.get(id=cont)
     
     contaminacao = ContaminacaoModel.objects.filter(informante=info, infectado=cont)
 
     if sobrevivente.estaInfectado:
-        return Response(sobrevivente.nome + " já está infectado", status=status.HTTP_200_OK)
+        return Response(sobrevivente.nome + " já está infectado(a)", status=status.HTTP_200_OK)
     else:
         if contaminacao.count():
-            return Response("Alerta sobre " + sobrevivente.nome + " já registrado", status=status.HTTP_200_OK)
+            return Response({'message': 'Alerta sobre ' + sobrevivente.nome + ' já registrado'}, status=status.HTTP_200_OK)
         else:
             serializer = ContaminacaoSerializer(data={"informante": info, "infectado": cont})
 
@@ -49,13 +49,13 @@ def alertaInfectado(request, info, cont):
         else:
             sobrevivente.save(update_fields=['countAlertInfected'])
     
-        return Response("O alerta de infecção foi recebido", status=status.HTTP_200_OK)
+        return Response({'message': 'O alerta de infecção foi recebido'}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def sobreviventeCreate(request):
 
     if request.data.get('inventario') == None:
-        return Response("É necessário declarar os itens do inventário", status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'É necessário declarar os itens do inventário'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         serializer = SobreviventeSerializer(data=request.data)
         if serializer.is_valid():
@@ -82,7 +82,7 @@ def sobreviventeDelete(request, pk):
     sobrevivente = SobreviventeModel.objects.get(id=pk)
     sobrevivente.delete()
 
-    return Response("Sobrevivente Deletado", status=status.HTTP_200_OK)
+    return Response({'message': 'Sobrevivente Deletado'}, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
 def sobreviventeUpdate(request, pk):
@@ -103,4 +103,4 @@ def sobreviventeUpdateLocalization(request, pk):
 
     sobrevivente.save(update_fields=['latitude', 'longitude'])
 
-    return Response("Localização Atualizada", status=status.HTTP_200_OK)
+    return Response({'message': 'Localização Atualizada'}, status=status.HTTP_200_OK)
