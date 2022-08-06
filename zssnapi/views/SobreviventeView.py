@@ -27,7 +27,7 @@ def sobreviventeDetail(request, pk):
     except SobreviventeModel.DoesNotExist:
         return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['GET'])
+@api_view(['PUT'])
 def alertaInfectado(request, info, cont):
     try:
         if info == cont:
