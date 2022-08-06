@@ -14,14 +14,17 @@ def inventariosList(request):
 
 @api_view(['GET'])
 def inventarioDetail(request, fk):
-    isInfectado = SobreviventeModel.objects.get(id=fk).estaInfectado
-    if isInfectado:
-        return Response({'message': 'Não é possível acessar inventário, sobrevivente infectado'}, status=status.HTTP_200_OK)
-    else:
-        inventarios = InventarioModel.objects.filter(sobrevivente=fk)
-        serializer = InventarioSerializer(inventarios, many=True)
-    
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    try:
+        isInfectado = SobreviventeModel.objects.get(id=fk).estaInfectado
+        if isInfectado:
+            return Response({'message': 'Não é possível acessar inventário, sobrevivente infectado'}, status=status.HTTP_200_OK)
+        else:
+            inventarios = InventarioModel.objects.filter(sobrevivente=fk)
+            serializer = InventarioSerializer(inventarios, many=True)
+        
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    except SobreviventeModel.DoesNotExist:
+        return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def inventarioCreate(request):

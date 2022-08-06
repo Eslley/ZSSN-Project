@@ -16,40 +16,45 @@ def sobreviventesList(request):
 
 @api_view(['GET'])
 def sobreviventeDetail(request, pk):
-    sobreviventes = SobreviventeModel.objects.get(id=pk)
-    serializer = SobreviventeSerializer(sobreviventes, many=False)
-    
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    try:
+        sobreviventes = SobreviventeModel.objects.get(id=pk)
+        serializer = SobreviventeSerializer(sobreviventes, many=False)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except SobreviventeModel.DoesNotExist:
+        return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 def alertaInfectado(request, info, cont):
+    try:
+        if info == cont:
+            return Response({'message': 'O informante nao pode ser o mesmo sobrevivente do relato'}, status=status.HTTP_200_OK)
 
-    if info == cont:
-        return Response({'message': 'O informante nao pode ser o mesmo sobrevivente do relato'}, status=status.HTTP_200_OK)
+        sobrevivente = SobreviventeModel.objects.get(id=cont)
+        
+        contaminacao = ContaminacaoModel.objects.filter(informante=info, infectado=cont)
 
-    sobrevivente = SobreviventeModel.objects.get(id=cont)
-    
-    contaminacao = ContaminacaoModel.objects.filter(informante=info, infectado=cont)
-
-    if sobrevivente.estaInfectado:
-        return Response(sobrevivente.nome + " já está infectado(a)", status=status.HTTP_200_OK)
-    else:
-        if contaminacao.count():
-            return Response({'message': 'Alerta sobre ' + sobrevivente.nome + ' já registrado'}, status=status.HTTP_200_OK)
+        if sobrevivente.estaInfectado:
+            return Response(sobrevivente.nome + " já está infectado(a)", status=status.HTTP_200_OK)
         else:
-            serializer = ContaminacaoSerializer(data={"informante": info, "infectado": cont})
+            if contaminacao.count():
+                return Response({'message': 'Alerta sobre ' + sobrevivente.nome + ' já registrado'}, status=status.HTTP_200_OK)
+            else:
+                serializer = ContaminacaoSerializer(data={"informante": info, "infectado": cont})
 
-            if serializer.is_valid():
-                serializer.save()
+                if serializer.is_valid():
+                    serializer.save()
 
-        sobrevivente.countAlertInfected += 1
-        if sobrevivente.countAlertInfected == 3:
-            sobrevivente.estaInfectado = True
-            sobrevivente.save(update_fields=['estaInfectado', 'countAlertInfected'])
-        else:
-            sobrevivente.save(update_fields=['countAlertInfected'])
-    
-        return Response({'message': 'O alerta de infecção foi recebido'}, status=status.HTTP_200_OK)
+            sobrevivente.countAlertInfected += 1
+            if sobrevivente.countAlertInfected == 3:
+                sobrevivente.estaInfectado = True
+                sobrevivente.save(update_fields=['estaInfectado', 'countAlertInfected'])
+            else:
+                sobrevivente.save(update_fields=['countAlertInfected'])
+        
+            return Response({'message': 'O alerta de infecção foi recebido'}, status=status.HTTP_200_OK)
+    except SobreviventeModel.DoesNotExist:
+        return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def sobreviventeCreate(request):
@@ -79,28 +84,37 @@ def sobreviventeCreate(request):
 
 @api_view(['DELETE'])
 def sobreviventeDelete(request, pk):
-    sobrevivente = SobreviventeModel.objects.get(id=pk)
-    sobrevivente.delete()
+    try:
+        sobrevivente = SobreviventeModel.objects.get(id=pk)
+        sobrevivente.delete()
 
-    return Response({'message': 'Sobrevivente Deletado'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Sobrevivente Deletado'}, status=status.HTTP_200_OK)
+    except SobreviventeModel.DoesNotExist:
+        return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['PUT'])
 def sobreviventeUpdate(request, pk):
-    sobrevivente = SobreviventeModel.objects.get(id=pk)
-    serializer = SobreviventeSerializer(instance=sobrevivente, data=request.data)
+    try:
+        sobrevivente = SobreviventeModel.objects.get(id=pk)
+        serializer = SobreviventeSerializer(instance=sobrevivente, data=request.data)
 
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    except SobreviventeModel.DoesNotExist:
+        return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['PUT'])
 def sobreviventeUpdateLocalization(request, pk):
-    sobrevivente = SobreviventeModel.objects.get(id=pk)
-    
-    sobrevivente.latitude = request.data.get('latitude')
+    try:
+        sobrevivente = SobreviventeModel.objects.get(id=pk)
+        
+        sobrevivente.latitude = request.data.get('latitude')
 
-    sobrevivente.longitude = request.data.get('longitude')
+        sobrevivente.longitude = request.data.get('longitude')
 
-    sobrevivente.save(update_fields=['latitude', 'longitude'])
+        sobrevivente.save(update_fields=['latitude', 'longitude'])
 
-    return Response({'message': 'Localização Atualizada'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Localização Atualizada'}, status=status.HTTP_200_OK)
+    except SobreviventeModel.DoesNotExist:
+        return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
