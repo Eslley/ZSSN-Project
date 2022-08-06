@@ -12,8 +12,11 @@ class InventarioSerializer(serializers.ModelSerializer):
         exclude = ['id']
 
     def to_representation(self, instance):
+
+        sobrevivente = SobreviventeSerializer(instance.sobrevivente).data
         return {
-            'sobrevivente': SobreviventeSerializer(instance.sobrevivente).data['nome'],
+            'sobreviventeId': sobrevivente['id'],
+            'sobrevivente': sobrevivente['nome'],
             'item': ItemSerializer(instance.item).data,
             'quantidade': instance.quantidade
         }
