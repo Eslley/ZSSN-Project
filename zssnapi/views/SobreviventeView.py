@@ -3,9 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from zssnapi.models import SobreviventeModel, ContaminacaoModel
+from zssnapi.models.InventarioModel import InventarioModel
+from zssnapi.models.ItemModel import ItemModel
 from zssnapi.serializers import SobreviventeSerializer
 from zssnapi.serializers.ContaminacaoSerializer import ContaminacaoSerializer
 from zssnapi.serializers.InventarioSerializer import InventarioSerializer
+from django.db.models import F, Sum
 
 @api_view(['GET'])
 def sobreviventesList(request):
@@ -35,7 +38,7 @@ def alertaInfectado(request, info, cont):
         contaminacao = ContaminacaoModel.objects.filter(informante=info, infectado=cont)
 
         if sobrevivente.estaInfectado:
-            return Response(sobrevivente.nome + " já está infectado(a)", status=status.HTTP_200_OK)
+            return Response({'message': sobrevivente.nome + ' já está infectado(a)'}, status=status.HTTP_200_OK)
         else:
             if contaminacao.count():
                 return Response({'message': 'Alerta sobre ' + sobrevivente.nome + ' já registrado'}, status=status.HTTP_200_OK)
@@ -118,3 +121,38 @@ def sobreviventeUpdateLocalization(request, pk):
         return Response({'message': 'Localização Atualizada'}, status=status.HTTP_200_OK)
     except SobreviventeModel.DoesNotExist:
         return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def relatorios(request):
+    try:
+        relatorios = {}
+
+        totalSobreviventes = SobreviventeModel.objects.all().count()
+        totalInfectados = SobreviventeModel.objects.filter(estaInfectado=True).count()
+
+        infectados = totalInfectados/totalSobreviventes
+        relatorios['total_sobreviventes'] = totalSobreviventes
+        relatorios['infectados'] = str(infectados) + "%"
+        relatorios['nao_infectados'] = str(1 - infectados) + "%"
+
+        itens = ItemModel.objects.all()
+
+        for i in itens:
+            relatorios["media_"+i.nome] = "0 por sobrevivente"
+
+        somaRecursos = InventarioModel.objects.filter(sobrevivente__estaInfectado='False').values('item__nome').annotate(soma=Sum('quantidade'))
+        for i in somaRecursos:
+            relatorios["media_" + i['item__nome']] = str(float(i['soma']) / (totalSobreviventes - totalInfectados)) + " por sobrevivente"
+
+        pontosPerdidosInfectados = SobreviventeModel.objects.filter(estaInfectado='True').values(
+            'id', 'nome', 'inventariomodel__item__id', 'inventariomodel__item__pontos', 'inventariomodel__quantidade'
+            ).annotate(
+                total_pontos=F('inventariomodel__item__pontos')*F('inventariomodel__quantidade')
+            ).values('id', 'nome', 'estaInfectado').annotate(pontos_perdidos=Sum('total_pontos'))
+        
+        relatorios['pontos_perdidos'] = pontosPerdidosInfectados
+
+        return Response(relatorios, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({'message': e}, status=status.HTTP_400_BAD_REQUEST)
