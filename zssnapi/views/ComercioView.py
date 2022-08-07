@@ -30,14 +30,14 @@ def negociar(request):
             adicionarItens(sId2, itens1)
         
         else:
-            return Response(serializer.errors, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     except SobreviventeModel.DoesNotExist:
         transaction.rollback()
         return Response({'message': 'Sobrevivente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
     except EmptyResultSet:
         transaction.rollback()
-        return Response({'message': 'Item oferecido não está no inventário do sobrevivente'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Item oferecido não está no inventário do sobrevivente'}, status=status.HTTP_400_BAD_REQUEST)
     except:
         transaction.rollback()
         return Response({'message': 'Erro interno'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -31,7 +31,7 @@ def sobreviventeDetail(request, pk):
 def alertaInfectado(request, info, cont):
     try:
         if info == cont:
-            return Response({'message': 'O informante nao pode ser o mesmo sobrevivente do relato'}, status=status.HTTP_200_OK)
+            return Response({'message': 'O informante nao pode ser o mesmo sobrevivente do relato'}, status=status.HTTP_400_BAD_REQUEST)
 
         sobrevivente = SobreviventeModel.objects.get(id=cont)
         
