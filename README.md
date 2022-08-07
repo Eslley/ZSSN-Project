@@ -88,7 +88,7 @@ Deleta sobrevivente do sistema
 
 * **PUT  /sobreviventes/{idSobrevivente1}/contaminacao/{idSobrevivente2}/**
 O sobrevivente com idSobrevivente1 relata a contaminação do sobrevivente com idSobrevivente2,
-cada sinalização de contanização é contabilizada, quando ocorrem três relatos sobre o mesmo sobrevivente, 
+cada sinalização de contamização é contabilizada, quando ocorrem três relatos sobre o mesmo sobrevivente, 
 ele é marcado como infectado
 
     Reponse:
