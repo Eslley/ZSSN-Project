@@ -9,7 +9,7 @@ Representa os usuários da API da ZSSN
 Exibe uma lista com todos os usuários do sistema
 
 
-* **GET /sobreviventes/detail/:idSobrevivente/**
+* **GET /sobreviventes/detail/{idSobrevivente}/**
 Lista os dados de um determinado sobrevivente
 
     Reponse:
@@ -59,7 +59,7 @@ Cadastra um novo sobrevivente no sistema junto com os itens declarados
     ```
 
 
-* **PUT /sobreviventes/update/:idSobrevivente/localization/**
+* **PUT /sobreviventes/update/{idSobrevivente}/localization/**
 Atualizada latitude e longitude do sobrevivente
 
     Request:
@@ -76,7 +76,7 @@ Atualizada latitude e longitude do sobrevivente
     }
     ```
 
-* **DELETE /sobreviventes/delete/:idSobrevivente/**
+* **DELETE /sobreviventes/delete/{idSobrevivente}/**
 Delete sobrevivente do sistema
 
     Reponse:
@@ -86,7 +86,7 @@ Delete sobrevivente do sistema
     }
     ```
 
-* **PUT  /sobreviventes/:idSobrevivente1/contaminacao/:idSobrevivente2/**
+* **PUT  /sobreviventes/{idSobrevivente1}/contaminacao/{idSobrevivente2}/**
 O sobrevivente com idSobrevivente1 relata a contaminação do sobrevivente com idSobrevivente2
 
     Reponse:
@@ -133,7 +133,7 @@ Exibe uma lista com os inventários dos sobreviventes
 
 
 
-* **GET /inventarios/sobrevivente/:idSobrevivente/**
+* **GET /inventarios/sobrevivente/{idSobrevivente}/**
 Lista todos os recursos que um determinado sobrevivente possui
 
     Response:
