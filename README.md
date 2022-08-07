@@ -77,7 +77,7 @@ Atualizada latitude e longitude do sobrevivente
     ```
 
 * **DELETE /sobreviventes/delete/{idSobrevivente}/**
-Delete sobrevivente do sistema
+Deleta sobrevivente do sistema
 
     Response:
     ```
@@ -87,12 +87,28 @@ Delete sobrevivente do sistema
     ```
 
 * **PUT  /sobreviventes/{idSobrevivente1}/contaminacao/{idSobrevivente2}/**
-O sobrevivente com idSobrevivente1 relata a contaminação do sobrevivente com idSobrevivente2
+O sobrevivente com idSobrevivente1 relata a contaminação do sobrevivente com idSobrevivente2,
+cada sinalização de contanização é contabilizada, quando ocorrem três relatos o sobrevivente
+é marcado como infectado
 
     Reponse:
     ```
     {
       "message": "O alerta de infecção foi recebido"
+    }
+    ```
+    
+    Reponse com erro:
+    ```
+    {
+      "message": "O informante nao pode ser o mesmo sobrevivente do relato"
+    }
+    ```
+    
+    Reponse (sinalização de sobrevivente já infectado):
+    ```
+    {
+      "message": "Rubem já está infectado(a)"
     }
     ```
     
