@@ -1,4 +1,4 @@
-# **Doc API - ZSSN**
+# **Dococumentação API - ZSSN**
 Documentação para utilizar a API da ZSSN(Rede Social de Sobrevivência Zumbi)
 
 ## **Sobrevivente**
@@ -25,6 +25,13 @@ Lista os dados de um determinado sobrevivente
       "countAlertInfected": 0
     }
     ```
+    
+    Reponse com erro:
+     ```
+    {
+      "message": "Sobrevivente não encontrado"
+    }
+    ```   
 
 * **POST /sobreviventes/create/**
 Cadastra um novo sobrevivente no sistema junto com os itens declarados
@@ -162,6 +169,15 @@ Lista todos os recursos que um determinado sobrevivente possui
         ]
     }
     ```
+    
+    Response com erro:
+    ```
+    {
+        "message": 'Não é possível acessar inventário, sobrevivente infectado'
+    }
+    ```
+    
+    
 ## **Item**
 Representa os recursos que os sobreviventes podem possuir
 
@@ -256,5 +272,12 @@ Transfere os itens informados para cada sobrevivente
     ```
     {
       "message": "Troca realizada com sucesso"
+    }
+    ```
+    
+    Response com erro:
+    ```
+    {
+      "message": "Item oferecido não está no inventário do sobrevivente"
     }
     ```
