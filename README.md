@@ -1,4 +1,4 @@
-# **Dococumentação API - ZSSN**
+# **Documentação API - ZSSN**
 Documentação para utilizar a API da ZSSN(Rede Social de Sobrevivência Zumbi)
 
 ## **Sobrevivente**
