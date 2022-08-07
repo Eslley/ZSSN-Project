@@ -12,7 +12,7 @@ Exibe uma lista com todos os usuários do sistema
 * **GET /sobreviventes/detail/{idSobrevivente}/**
 Lista os dados de um determinado sobrevivente
 
-    Reponse:
+    Response:
     ```
     {
       "id": 13,
@@ -26,7 +26,7 @@ Lista os dados de um determinado sobrevivente
     }
     ```
     
-    Reponse com erro:
+    Response com erro:
      ```
     {
       "message": "Sobrevivente não encontrado"
@@ -79,7 +79,7 @@ Atualizada latitude e longitude do sobrevivente
 * **DELETE /sobreviventes/delete/{idSobrevivente}/**
 Delete sobrevivente do sistema
 
-    Reponse:
+    Response:
     ```
     {
       "message": "Sobrevivente Deletado"
