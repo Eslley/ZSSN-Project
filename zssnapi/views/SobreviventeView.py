@@ -110,11 +110,15 @@ def sobreviventeUpdate(request, pk):
 @api_view(['PUT'])
 def sobreviventeUpdateLocalization(request, pk):
     try:
+        data = request.data
         sobrevivente = SobreviventeModel.objects.get(id=pk)
-        
-        sobrevivente.latitude = request.data.get('latitude')
 
-        sobrevivente.longitude = request.data.get('longitude')
+        if data.get('latitude') == None or data.get('longitude') == None:
+            return Response({'message': 'Dados de localização faltando'}, status=status.HTTP_400_BAD_REQUEST)
+
+        sobrevivente.latitude = data.get('latitude')
+
+        sobrevivente.longitude = data.get('longitude')
 
         sobrevivente.save(update_fields=['latitude', 'longitude'])
 
