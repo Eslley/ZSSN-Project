@@ -57,6 +57,15 @@ Cadastra um novo sobrevivente no sistema junto com os itens declarados
             ]
         }
     ```
+    
+    Response com erro:
+    ```
+        {
+            "message": "É necessário declarar os itens do inventário"
+        }
+    ```
+    
+    
 
 
 * **PUT /sobreviventes/update/{idSobrevivente}/localization/**
@@ -146,8 +155,6 @@ Representa todos os recursos que os sobreviventes possuem
 
 * **GET /inventarios/**
 Exibe uma lista com os inventários dos sobreviventes
-
-
 
 * **GET /inventarios/sobrevivente/{idSobrevivente}/**
 Lista todos os recursos que um determinado sobrevivente possui
