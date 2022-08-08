@@ -62,7 +62,7 @@ def alertaInfectado(request, info, cont):
 @api_view(['POST'])
 def sobreviventeCreate(request):
 
-    if request.data.get('inventario') == None:
+    if request.data.get('inventario') == None or len(request.data.get('inventario')) == 0:
         return Response({'message': 'É necessário declarar os itens do inventário'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         serializer = SobreviventeSerializer(data=request.data)
