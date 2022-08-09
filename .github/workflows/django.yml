@@ -27,7 +27,7 @@ jobs:
         pip install -r requirements.txt
     - name: Test with Django
       run: |
-        python manage.py test
+        python manage.py test --keepdb
     - name: Add remote origin
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
