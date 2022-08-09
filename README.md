@@ -1,5 +1,8 @@
+ZSSN (Rede Social de Sobrevivência Zumbi)
+zssn-pr0j3ct.herokuapp.com 
+
 # **Documentação API - ZSSN**
-Documentação para utilizar a API da ZSSN(Rede Social de Sobrevivência Zumbi)
+Documentação para utilizar a API da ZSSN
 
 ## **Sobrevivente**
 Representa os usuários da API da ZSSN
