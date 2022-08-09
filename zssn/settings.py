@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import sys
 
 import django_heroku
 
@@ -84,16 +85,34 @@ WSGI_APPLICATION = 'zssn.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd79bjrmq2f3j46',
-        'USER': 'hkjcefubujjaof',
-        'PASSWORD': 'b899d78cd86eb66da86682504c7a075d9db2ef67f3d8b8e8d0c4a6b55e1eb7fb',
-        'HOST': 'ec2-54-225-234-165.compute-1.amazonaws.com',
-        'PORT': '5432'
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'd3m8pt9v7tor4i',
+            'USER': 'afkuiomlkcdxrq',
+            'PASSWORD': '3c14ce975dba00cd9444f44ff6959043ca40a1ae94fe4cb040191ed2b89e3a06',
+            'HOST': 'ec2-34-193-44-192.compute-1.amazonaws.com',
+            'PORT': '5432',
+            'TEST': {
+                'NAME': 'd3m8pt9v7tor4i',
+            }
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'd79bjrmq2f3j46',
+            'USER': 'hkjcefubujjaof',
+            'PASSWORD': 'b899d78cd86eb66da86682504c7a075d9db2ef67f3d8b8e8d0c4a6b55e1eb7fb',
+            'HOST': 'ec2-54-225-234-165.compute-1.amazonaws.com',
+            'PORT': '5432'
+        }
+    }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
