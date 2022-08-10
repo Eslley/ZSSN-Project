@@ -1,6 +1,7 @@
 # ZSSN (Rede Social de Sobrevivência Zumbi)
 
-Site: zssn-pr0j3ct.herokuapp.com 
+Para utilizar a plataforma acesse [zssn-pr0j3ct.herokuapp.com](zssn-pr0j3ct.herokuapp.com)
+
 
 # **Documentação API - ZSSN**
 Documentação para utilizar a API da ZSSN
