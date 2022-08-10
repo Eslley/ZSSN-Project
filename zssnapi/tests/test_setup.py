@@ -19,6 +19,12 @@ class TestSetUp(APITestCase):
         self.update_localization_url = reverse('sobrevivente-update-localization', kwargs={'pk': self.sobrevivente.pk})
         self.alert_contamination_url = reverse('sobrevivente-infectado', kwargs={'info': self.sobrevivente.pk, 'cont': self.sobrevivente2.pk})
         self.delete_item_ulr = reverse('item-delete', kwargs={'pk': self.item.pk})
+        self.create_item_url = reverse('item-create')
+
+        self.item_dados_incorretos = {
+            "nome": "alimento",
+            "pontos": -2
+        }
 
         self.sobrevivente_dados_sem_inventario = {
             "nome": "Rubem Eslley",

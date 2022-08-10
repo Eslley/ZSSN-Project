@@ -74,6 +74,11 @@ class TestViews(TestSetUp):
         self.assertEqual(self.sobrevivente4.countAlertInfected, 3)
         self.assertEqual(self.sobrevivente4.estaInfectado, True)
 
+    def test_adicionar_item_com_pontos_menor_que_um(self):
+        response = self.client.post(self.create_item_url, self.item_dados_incorretos)
+
+        self.assertEqual(response.status_code, 400)
+
     def test_deletar_item(self):
         response = self.client.delete(self.delete_item_ulr)
 
