@@ -77,4 +77,4 @@ class TestViews(TestSetUp):
     def test_deletar_item(self):
         response = self.client.delete(self.delete_item_ulr)
 
-        self.assetEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
