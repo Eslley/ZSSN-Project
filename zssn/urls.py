@@ -6,6 +6,5 @@ urlpatterns = [
     path('itens/', include('zssnapi.routing.ItemRoutes')),
     path('inventarios/', include('zssnapi.routing.InventarioRoutes')),
     path('comercio/', include('zssnapi.routing.ComercioRoutes')),
-    path('', include('zssnfront.urls')),
     path('admin/', admin.site.urls)
 ]
