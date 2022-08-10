@@ -1,6 +1,7 @@
 from django.urls import reverse
 from urllib import response
 from zssnapi.models.InventarioModel import InventarioModel
+from zssnapi.models.ItemModel import ItemModel
 from zssnapi.tests.test_setup import TestSetUp
 
 
@@ -72,3 +73,11 @@ class TestViews(TestSetUp):
 
         self.assertEqual(self.sobrevivente4.countAlertInfected, 3)
         self.assertEqual(self.sobrevivente4.estaInfectado, True)
+
+    def test_deletar_item(self):
+        idItem = self.item.pk
+        self.item.delete()
+
+        item = ItemModel.objects.get(id=idItem).count()
+
+        self.assetEqual(item, 0)

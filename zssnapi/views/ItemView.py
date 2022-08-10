@@ -20,3 +20,12 @@ def itemCreate(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+@api_view(['DELETE'])
+def itemDelete(request, pk):
+    try:
+        item = ItemModel.objects.get(id=pk)
+        item.delete()
+
+        return Response({'message': 'Item Deletado'}, status=status.HTTP_200_OK)
+    except ItemModel.DoesNotExist:
+        return Response({'message': 'Item não encontrado'}, status=status.HTTP_404_NOT_FOUND)

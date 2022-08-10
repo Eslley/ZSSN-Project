@@ -1,5 +1,6 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
+from zssnapi.models.ItemModel import ItemModel
 
 from zssnapi.models.SobreviventeModel import SobreviventeModel
 
@@ -12,9 +13,12 @@ class TestSetUp(APITestCase):
         self.sobrevivente3 = SobreviventeModel.objects.create(nome='Joanne Fay', idade=28, sexo='f', latitude=5.000022, longitude=42.0021113)
         self.sobrevivente4 = SobreviventeModel.objects.create(nome='Marsha', idade=42, sexo='f', latitude=5.885334, longitude=41.0023300)
 
+        self.item = ItemModel.objects.create(nome="itemteste", pontos=9)
+
         self.create_url = reverse('sobrevivente-create')
         self.update_localization_url = reverse('sobrevivente-update-localization', kwargs={'pk': self.sobrevivente.pk})
         self.alert_contamination_url = reverse('sobrevivente-infectado', kwargs={'info': self.sobrevivente.pk, 'cont': self.sobrevivente2.pk})
+        self.delete_item_ulr = reverse('item-delete', kwargs={'pk': self.item.pk})
 
         self.sobrevivente_dados_sem_inventario = {
             "nome": "Rubem Eslley",
