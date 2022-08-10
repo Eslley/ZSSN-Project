@@ -1,4 +1,5 @@
-ZSSN (Rede Social de Sobrevivência Zumbi)
+# ZSSN (Rede Social de Sobrevivência Zumbi)
+
 Site: zssn-pr0j3ct.herokuapp.com 
 
 # **Documentação API - ZSSN**
@@ -131,12 +132,14 @@ Fornece dados de relatório
     ```
     {
       "total_sobreviventes": 5,
-      "infectados": "0.4%",
-      "nao_infectados": "0.6%",
-      "media_agua": "3.0 por sobrevivente",
-      "media_alimentacao": "3.0 por sobrevivente",
-      "media_medicacao": "0 por sobrevivente",
-      "media_municao": "6.0 por sobrevivente",
+      "infectados": "40%",
+      "nao_infectados": "60%",
+      "media_itens": [
+        {
+          "item": "agua",
+          "media": 3.0
+        }
+      ],
       "pontos_perdidos": [
         {
           "id": 10,

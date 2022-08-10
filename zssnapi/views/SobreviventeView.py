@@ -145,12 +145,16 @@ def relatorios(request):
 
             itens = ItemModel.objects.all()
 
-            for i in itens:
-                relatorios["media_"+i.nome] = "0 por sobrevivente"
+            relatorios['media_itens'] = []
 
             somaRecursos = InventarioModel.objects.filter(sobrevivente__estaInfectado='False').values('item__nome').annotate(soma=Sum('quantidade'))
             for i in somaRecursos:
-                relatorios["media_" + i['item__nome']] = str(float(i['soma']) / (totalSobreviventes - totalInfectados)) + " por sobrevivente"
+                relatorios['media_itens'].append(
+                    {
+                        "item": i['item__nome'],
+                        "media": float(i['soma']) / (totalSobreviventes - totalInfectados)
+                    }
+                )
 
             pontosPerdidosInfectados = SobreviventeModel.objects.filter(estaInfectado='True').values(
                 'id', 'nome', 'inventariomodel__item__id', 'inventariomodel__item__pontos', 'inventariomodel__quantidade'
