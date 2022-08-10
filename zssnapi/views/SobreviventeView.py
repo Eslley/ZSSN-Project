@@ -132,29 +132,33 @@ def relatorios(request):
         relatorios = {}
 
         totalSobreviventes = SobreviventeModel.objects.all().count()
-        totalInfectados = SobreviventeModel.objects.filter(estaInfectado=True).count()
 
-        infectados = totalInfectados/totalSobreviventes
-        relatorios['total_sobreviventes'] = totalSobreviventes
-        relatorios['infectados'] = str(infectados) + "%"
-        relatorios['nao_infectados'] = str(1 - infectados) + "%"
+        if(totalSobreviventes == 0):
+            return Response({'message': 'Ainda não existem sobreviventes cadastrados'}, status=status.HTTP_200_OK)
+        else:
+            totalInfectados = SobreviventeModel.objects.filter(estaInfectado=True).count()
 
-        itens = ItemModel.objects.all()
+            infectados = totalInfectados/totalSobreviventes
+            relatorios['total_sobreviventes'] = totalSobreviventes
+            relatorios['infectados'] = str(infectados * 100 ) + "%"
+            relatorios['nao_infectados'] = str((1 - infectados) * 100) + "%"
 
-        for i in itens:
-            relatorios["media_"+i.nome] = "0 por sobrevivente"
+            itens = ItemModel.objects.all()
 
-        somaRecursos = InventarioModel.objects.filter(sobrevivente__estaInfectado='False').values('item__nome').annotate(soma=Sum('quantidade'))
-        for i in somaRecursos:
-            relatorios["media_" + i['item__nome']] = str(float(i['soma']) / (totalSobreviventes - totalInfectados)) + " por sobrevivente"
+            for i in itens:
+                relatorios["media_"+i.nome] = "0 por sobrevivente"
 
-        pontosPerdidosInfectados = SobreviventeModel.objects.filter(estaInfectado='True').values(
-            'id', 'nome', 'inventariomodel__item__id', 'inventariomodel__item__pontos', 'inventariomodel__quantidade'
-            ).annotate(
-                total_pontos=F('inventariomodel__item__pontos')*F('inventariomodel__quantidade')
-            ).values('id', 'nome', 'estaInfectado').annotate(pontos_perdidos=Sum('total_pontos'))
-        
-        relatorios['pontos_perdidos'] = pontosPerdidosInfectados
+            somaRecursos = InventarioModel.objects.filter(sobrevivente__estaInfectado='False').values('item__nome').annotate(soma=Sum('quantidade'))
+            for i in somaRecursos:
+                relatorios["media_" + i['item__nome']] = str(float(i['soma']) / (totalSobreviventes - totalInfectados)) + " por sobrevivente"
+
+            pontosPerdidosInfectados = SobreviventeModel.objects.filter(estaInfectado='True').values(
+                'id', 'nome', 'inventariomodel__item__id', 'inventariomodel__item__pontos', 'inventariomodel__quantidade'
+                ).annotate(
+                    total_pontos=F('inventariomodel__item__pontos')*F('inventariomodel__quantidade')
+                ).values('id', 'nome', 'estaInfectado').annotate(pontos_perdidos=Sum('total_pontos'))
+            
+            relatorios['pontos_perdidos'] = pontosPerdidosInfectados
 
         return Response(relatorios, status=status.HTTP_200_OK)
 
