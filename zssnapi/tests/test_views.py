@@ -75,9 +75,6 @@ class TestViews(TestSetUp):
         self.assertEqual(self.sobrevivente4.estaInfectado, True)
 
     def test_deletar_item(self):
-        idItem = self.item.pk
-        self.item.delete()
+        response = self.client.delete(self.delete_item_ulr)
 
-        item = ItemModel.objects.get(id=idItem).count()
-
-        self.assetEqual(item, 0)
+        self.assetEqual(response.status_code, 200)
