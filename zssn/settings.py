@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import sys
+from decouple import config
 
 import django_heroku
 
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h564o06qa4u^o7nlcylslmg14&o^+-hv0ycqk6ez7g6_93nrb6'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,25 +80,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'zssn.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
 if 'test' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'd3m8pt9v7tor4i',
-            'USER': 'afkuiomlkcdxrq',
-            'PASSWORD': '3c14ce975dba00cd9444f44ff6959043ca40a1ae94fe4cb040191ed2b89e3a06',
-            'HOST': 'ec2-34-193-44-192.compute-1.amazonaws.com',
+            'NAME': config('DB1_NAME'),
+            'USER': config('DB1_USER'),
+            'PASSWORD': config('DB1_PASSWORD'),
+            'HOST': config('DB1_HOST'),
             'PORT': '5432',
             'TEST': {
                 'NAME': 'd3m8pt9v7tor4i',
@@ -108,10 +98,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'd79bjrmq2f3j46',
-            'USER': 'hkjcefubujjaof',
-            'PASSWORD': 'b899d78cd86eb66da86682504c7a075d9db2ef67f3d8b8e8d0c4a6b55e1eb7fb',
-            'HOST': 'ec2-54-225-234-165.compute-1.amazonaws.com',
+            'NAME': config('DB2_NAME'),
+            'USER': config('DB2_USER'),
+            'PASSWORD': config('DB2_PASSWORD'),
+            'HOST': config('DB2_HOST'),
             'PORT': '5432'
         }
     }
