@@ -6,7 +6,17 @@ name: Python application
 on:
   push:
     branches: [ "master" ]
-
+env:
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  DB1_NAME: ${{ secrets.DB1_NAME }}
+  DB1_USER: ${{ secrets.DB1_USER }}
+  DB1_PASSWORD: ${{ secrets.DB1_PASSWORD }}
+  DB1_HOST: ${{ secrets.DB1_HOST }}
+  DB2_NAME: ${{ secrets.DB2_NAME }}
+  DB2_USER: ${{ secrets.DB2_USER }}
+  DB2_PASSWORD: ${{ secrets.DB2_PASSWORD }}
+  DB2_HOST: ${{ secrets.DB2_HOST }}
+  
 permissions:
   contents: read
 
