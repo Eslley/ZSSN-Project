@@ -2,7 +2,7 @@
 
   <div class="container">
       
-    <h4 class="center-align">Inventários</h4>
+      <h4 class="center-align"><i class="material-icons">domain</i> Inventários</h4>
 
     <table class="center">
 
@@ -24,7 +24,7 @@
           <td class="center-align">
             <div class="collection">
               <a href="#!" v-for="item in inventario.itens" :key="item.index" class="collection-item">
-                {{ item.item.nome }}<span class="badge">{{ item.quantidade }}</span>
+                {{ item.item.nome }}: <span class="badge">{{ item.quantidade }}</span>
               </a>
             </div>
           </td>
@@ -59,7 +59,6 @@
           getInventarios() {
               Inventarios.listar().then(response => {
                   this.inventarios = response.data.inventarios
-                  console.log(this.inventarios)
               }).catch(err => {
 
               })
