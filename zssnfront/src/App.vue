@@ -27,6 +27,8 @@
     <Sobreviventes v-show="page == 'sobreviventes'" />
     <Inventarios v-show="page == 'inventarios'" />
 
+    <Relatorios v-show="page == 'relatorios'" />
+
   </div>
 </template>
 
@@ -36,6 +38,7 @@
 import Itens from './components/Itens.vue'
 import Sobreviventes from './components/Sobreviventes.vue'
 import Inventarios from './components/Inventarios.vue'
+import Relatorios from './components/Relatorios.vue'
 
 export default {
   name: "App",
@@ -52,7 +55,8 @@ export default {
     Sobreviventes,
     Inventarios,
     Sobreviventes,
-    Inventarios
+    Inventarios,
+    Relatorios
   }
   
 }

@@ -3,7 +3,7 @@ import { http } from "./config";
 export default {
 
     listar:() => {
-        return http.get('sobreviventes')
+        return http.get('sobreviventes/')
     },
 
     salvar:(sobrevivente) => {
@@ -14,6 +14,8 @@ export default {
         return http.put('sobreviventes/update/' + sobrevivente.id + 'localization', sobrevivente)
     },
 
-    
+    getRelatorios:() => {
+        return http.get('sobreviventes/relatorios/')
+    }
 
 }
