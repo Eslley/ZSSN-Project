@@ -4,6 +4,8 @@
 
       <h4 class="center-align">Gerenciamento de Itens</h4>
 
+      <Message :msg="msg" v-show="msg" />
+
       <form @submit.prevent="salvar">
 
           <label>Nome</label>
@@ -54,6 +56,7 @@
 <script>
 
   import Itens from '../services/itens';
+  import Message from './Message.vue';
 
   export default {
     name: 'Itens',
@@ -65,8 +68,13 @@
           pontos: ''
         },
         itens: [],
-        errors: []
+        errors: [],
+        msg: ""
       }
+    },
+
+    components: {
+      Message
     },
 
     mounted() {
@@ -74,6 +82,11 @@
     },
 
     methods: {
+
+      showMessage(message) {
+        this.msg = message
+        setTimeout(() => this.msg = "", 3000)
+      },
       
       listar() {
         Itens.listar().then(response => {
@@ -87,11 +100,11 @@
           if(response.status == 201) {
             this.listar()
             this.item = {}
-            alert("Item adicionado!")
+            this.showMessage("Item adicionado!")
           }
           
         }).catch(err => { 
-          alert("Erro ao salvar")
+          this.showMessage("Erro ao salvar")
           this.errors = err.response.data
         })
       },
@@ -102,11 +115,11 @@
           Itens.deletar(item).then(response => {
             if(response.status == 200) {
                 this.listar()
-                alert("Item deletado!")
+                this.showMessage("Item deletado!")
             }            
             
           }).catch(err => {
-            alert("Erro ao deletar")
+            this.showMessage("Erro ao deletar")
           })
         }
         
