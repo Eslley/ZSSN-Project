@@ -67,7 +67,7 @@ def sobreviventeCreate(request):
             return Response({'message': 'É necessário declarar os itens do inventário'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             inventario = request.data.get('inventario')
-            
+
             for i in inventario:
                 item = ItemModel.objects.get(pk=i.get('id'))
 
@@ -89,7 +89,7 @@ def sobreviventeCreate(request):
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except ItemModel.DoesNotExist:
-        return Response({'message': 'Item declarado não exites no sistema'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Item declarado não exite no sistema'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])
