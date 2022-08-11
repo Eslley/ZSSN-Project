@@ -9,10 +9,10 @@
             <label><b>Total de Sobreviventes</b></label>
             <input type="text" disabled="true" v-model="relatorios.total_sobreviventes" >
             
-            <label>Total de Infectados</label>
+            <label><b>Total de Infectados</b></label>
             <input type="text" disabled="true" v-model="relatorios.infectados" >
 
-            <label>Total de Não Infectados</label>
+            <label><b>Total de Não Infectados</b></label>
             <input type="text" disabled="true" v-model="relatorios.nao_infectados" ><br><br>
 
             <label><b>Média de recursos por Sobrevivente:</b></label>
@@ -56,8 +56,13 @@
                 Sobreviventes.getRelatorios().then(response => {
                     this.relatorios = response.data
 
+                    this.relatorios.infectados = this.relatorios.infectados.substring(0,5) + "%"
+
+                    
+                    this.relatorios.nao_infectados = this.relatorios.nao_infectados.substring(0,5) + "%"
+
                     this.relatorios.media_itens.forEach(e => {
-                        e.media = e.media + " por sobrevivente"
+                        e.media = e.media.substring(0,5) + " por sobrevivente"
                     });
 
                     this.relatorios.pontos_perdidos.forEach(e => {
