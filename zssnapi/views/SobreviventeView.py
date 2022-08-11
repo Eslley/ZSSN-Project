@@ -66,15 +66,14 @@ def sobreviventeCreate(request):
         if request.data.get('inventario') == None or len(request.data.get('inventario')) == 0:
             return Response({'message': 'É necessário declarar os itens do inventário'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-
+            inventario = request.data.get('inventario')
+            
             for i in inventario:
                 item = ItemModel.objects.get(pk=i.get('id'))
 
             serializer = SobreviventeSerializer(data=request.data)
             if serializer.is_valid():
                 s = serializer.save()
-
-                inventario = request.data.get('inventario')
 
                 for i in inventario:
                     serializerI = InventarioSerializer(data={
