@@ -1,6 +1,6 @@
 <template>
     <div>
-        Inventarios
+        Relarotios
     </div>
 </template>
 

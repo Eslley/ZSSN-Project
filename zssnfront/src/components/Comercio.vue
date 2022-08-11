@@ -1,6 +1,6 @@
 <template>
     <div>
-        Inventarios
+        Comercio
     </div>
 </template>
 
