@@ -62,28 +62,37 @@ def alertaInfectado(request, info, cont):
 @api_view(['POST'])
 def sobreviventeCreate(request):
 
-    if request.data.get('inventario') == None or len(request.data.get('inventario')) == 0:
-        return Response({'message': 'É necessário declarar os itens do inventário'}, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        serializer = SobreviventeSerializer(data=request.data)
-        if serializer.is_valid():
-            s = serializer.save()
+    try:
 
-            inventario = request.data.get('inventario')
+        if request.data.get('inventario') == None or len(request.data.get('inventario')) == 0:
+            return Response({'message': 'É necessário declarar os itens do inventário'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = SobreviventeSerializer(data=request.data)
+            if serializer.is_valid():
+                s = serializer.save()
 
-            for i in inventario:
-                serializerI = InventarioSerializer(data={
-                    "sobrevivente": s.id,
-                    "item": i.get('id'),
-                    "quantidade": i.get('quantidade')
-                })
+                inventario = request.data.get('inventario')
 
-                if serializerI.is_valid():
-                    serializerI.save()
-        
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+                for i in inventario:
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    item = ItemModel.objects.get(pk=i.get('id'))
+
+                    serializerI = InventarioSerializer(data={
+                        "sobrevivente": s.id,
+                        "item": i.get('id'),
+                        "quantidade": i.get('quantidade')
+                    })
+
+                    if serializerI.is_valid():
+                        serializerI.save()
+            
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except ItemModel.DoesNotExist:
+        SobreviventeModel.objects.delete(pk=s.id)
+        return Response({'message': 'Item declarado não exite no sistema'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['DELETE'])
 def sobreviventeDelete(request, pk):
