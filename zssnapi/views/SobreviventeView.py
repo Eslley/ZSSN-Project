@@ -147,8 +147,8 @@ def relatorios(request):
 
             infectados = totalInfectados/totalSobreviventes
             relatorios['total_sobreviventes'] = totalSobreviventes
-            relatorios['infectados'] = str(infectados * 100 ) + "%"
-            relatorios['nao_infectados'] = str((1 - infectados) * 100) + "%"
+            relatorios['infectados'] = str(infectados * 100 )
+            relatorios['nao_infectados'] = str((1 - infectados) * 100)
 
             itens = ItemModel.objects.all()
 
@@ -159,7 +159,7 @@ def relatorios(request):
                 relatorios['media_itens'].append(
                     {
                         "item": i['item__nome'],
-                        "media": float(i['soma']) / (totalSobreviventes - totalInfectados)
+                        "media": str(float(i['soma']) / (totalSobreviventes - totalInfectados))
                     }
                 )
 
