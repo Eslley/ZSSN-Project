@@ -2,7 +2,7 @@
 
     <div class="container">
 
-      <h4 class="center-align">Gerenciamento de Itens</h4>
+      <h4 class="center-align"><i class="material-icons">view_list</i> Itens</h4>
 
       <Message :msg="msg" v-show="msg" />
 
@@ -14,8 +14,9 @@
           <label>Pontos</label>
           <input type="number" placeholder="Pontos" v-model="item.pontos" >
 
-          <button class="waves-effect waves-light btn-small blue">Salvar<i class="material-icons left">save</i></button>
-
+          <div class="center-align">
+            <button class="waves-effect waves-light btn-small blue">Salvar<i class="material-icons left">save</i></button>
+          </div>
       </form>
 
       <table class="center">
@@ -38,7 +39,7 @@
             <td>{{ item.pontos }}</td>
             <td >
                 <div class="center-align">
-                    <button @click="deletar(item)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete_sweep</i></button>
+                    <button @click="itemD = item" data-target="modal1" class="waves-effect btn-small red darken-1 modal-trigger"><i class="material-icons">delete_sweep</i></button>
                 </div>
             </td>
 
@@ -47,6 +48,17 @@
         </tbody>
       
       </table>
+
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <h4>Confirmar</h4>
+          <p>Deseja realmente deletar o item {{itemD.nome}}?</p>
+        </div>
+        <div class="modal-footer">
+          <a @click="deletar()" href="#!" class="modal-close waves-effect waves-green btn-flat">Sim</a>
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Não</a>
+        </div>
+      </div>
 
     </div>
 
@@ -69,7 +81,8 @@
         },
         itens: [],
         errors: [],
-        msg: ""
+        msg: "",
+        itemD: {}
       }
     },
 
@@ -109,19 +122,16 @@
         })
       },
 
-      deletar(item) {
-
-        if(confirm("Deseja deletar o item?")) {
-          Itens.deletar(item).then(response => {
-            if(response.status == 200) {
-                this.listar()
-                this.showMessage("Item deletado!")
-            }            
-            
-          }).catch(err => {
-            this.showMessage("Erro ao deletar")
-          })
-        }
+      deletar() {
+        Itens.deletar(this.itemD).then(response => {
+          if(response.status == 200) {
+              this.listar()
+              this.showMessage("Item deletado!")
+          }            
+          
+        }).catch(err => {
+          this.showMessage("Erro ao deletar")
+        })
         
       }
 
@@ -130,5 +140,9 @@
 </script>
 
 <style>
+
+  .modal {
+    top: 40% !important;
+  }
 
 </style>
