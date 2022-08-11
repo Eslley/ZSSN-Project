@@ -3,7 +3,5 @@ from zssnapi.views import InventarioView
 
 urlpatterns = [
     path('', InventarioView.inventariosList, name='inventarios'),
-    path('sobrevivente/<str:fk>/', InventarioView.inventarioDetail, name='inventario-sobrevivente'),
-    path('create', InventarioView.inventarioCreate, name='inventario-create'),
-
+    path('sobrevivente/<str:fk>/', InventarioView.inventarioDetail, name='inventario-sobrevivente')
 ]
