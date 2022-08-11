@@ -63,10 +63,13 @@ def alertaInfectado(request, info, cont):
 def sobreviventeCreate(request):
 
     try:
-
         if request.data.get('inventario') == None or len(request.data.get('inventario')) == 0:
             return Response({'message': 'É necessário declarar os itens do inventário'}, status=status.HTTP_400_BAD_REQUEST)
         else:
+
+            for i in inventario:
+                item = ItemModel.objects.get(pk=i.get('id'))
+
             serializer = SobreviventeSerializer(data=request.data)
             if serializer.is_valid():
                 s = serializer.save()
@@ -74,9 +77,6 @@ def sobreviventeCreate(request):
                 inventario = request.data.get('inventario')
 
                 for i in inventario:
-
-                    item = ItemModel.objects.get(pk=i.get('id'))
-
                     serializerI = InventarioSerializer(data={
                         "sobrevivente": s.id,
                         "item": i.get('id'),
@@ -90,8 +90,7 @@ def sobreviventeCreate(request):
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except ItemModel.DoesNotExist:
-        SobreviventeModel.objects.delete(pk=s.id)
-        return Response({'message': 'Item declarado não exite no sistema'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Item declarado não exites no sistema'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])

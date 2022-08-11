@@ -15,6 +15,9 @@ class TestSetUp(APITestCase):
 
         self.item = ItemModel.objects.create(nome="itemteste", pontos=9)
 
+        self.item2 = ItemModel.objects.create(nome="itemteste2", pontos=5)
+        self.item3 = ItemModel.objects.create(nome="itemteste3", pontos=4)
+
         self.create_url = reverse('sobrevivente-create')
         self.update_localization_url = reverse('sobrevivente-update-localization', kwargs={'pk': self.sobrevivente.pk})
         self.alert_contamination_url = reverse('sobrevivente-infectado', kwargs={'info': self.sobrevivente.pk, 'cont': self.sobrevivente2.pk})
@@ -42,12 +45,12 @@ class TestSetUp(APITestCase):
             "longitude": 42.792717,
             "inventario": [
                 {
-                    "id": 4,
+                    "id": self.item2.pk,
                     "quantidade": 2
                     
                 },
                 {
-                    "id": 2,
+                    "id": self.item3.pk,
                     "quantidade": 2
                 }
             ]
