@@ -9,7 +9,7 @@ from zssnapi.serializers.InventarioSerializer import InventarioSerializer
 def inventariosList(request):
     try:
 
-        sobreviventes = SobreviventeModel.objects.all().values('id', 'nome')
+        sobreviventes = SobreviventeModel.objects.filter(estaInfectado=False).values('id', 'nome')
         data = inventarioSobrevivente(sobreviventes)
 
         return Response({'inventarios': data}, status=status.HTTP_200_OK)
