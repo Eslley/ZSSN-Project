@@ -222,6 +222,8 @@
                         this.showMessage("Sobrevivente adicionado!")
                         this.listar()
                         this.sobrevivente = {}
+                        this.itens = []
+                        this.inventario = []
                         this.listarItens()
                     } else {
                         this.showMessage(response.data.message)
