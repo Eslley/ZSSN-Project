@@ -1,4 +1,4 @@
-import { http } from "./config";
+import { http } from "./Http";
 
 export default {
 
