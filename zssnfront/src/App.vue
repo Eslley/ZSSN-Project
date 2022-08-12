@@ -91,4 +91,15 @@ export default {
     font-size: 35px;
     line-height: inherit;
   }
+
+  .subtitle-page {
+      font-size:28px;
+      line-height:24px;
+  }
+
+  .subtitle-page .material-icons {
+      display: inline-flex;
+      vertical-align: top;
+  }
+
 </style>

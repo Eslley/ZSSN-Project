@@ -2,7 +2,7 @@
 
     <div class="container">
         
-        <h4 class="center-align"><i class="material-icons">report</i> Relatórios da ZSSN</h4>
+        <h4 class="center-align subtitle-page"><i class="material-icons">report</i> Relatórios da ZSSN</h4>
 
         <form>
 

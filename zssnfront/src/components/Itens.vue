@@ -2,7 +2,7 @@
 
     <div class="container">
 
-      <h4 class="center-align"><i class="material-icons">view_list</i> Itens</h4>
+      <h4 class="center-align subtitle-page"><i class="material-icons">view_list</i> Itens</h4>
 
       <Message :msg="msg" v-show="msg" />
 
@@ -139,10 +139,14 @@
 }
 </script>
 
-<style>
+<style scoped>
 
   .modal {
     top: 40% !important;
+  }
+
+  form button {
+    margin: 30px 0 20px 0;
   }
 
 </style>

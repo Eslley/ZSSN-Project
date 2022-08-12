@@ -2,7 +2,7 @@
     
     <div class="container">
 
-        <h4 class="center-align"><i class="material-icons">people</i> Sobreviventes</h4>
+        <h4 class="center-align subtitle-page"><i class="material-icons">people</i> Sobreviventes</h4>
 
         <Message :msg="msg" v-show="msg" />
 

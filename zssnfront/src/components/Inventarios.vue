@@ -2,7 +2,7 @@
 
   <div class="container">
       
-      <h4 class="center-align"><i class="material-icons">domain</i> Inventários</h4>
+      <h4 class="center-align subtitle-page"><i class="material-icons">domain</i> Inventários</h4>
 
     <table class="center">
 
