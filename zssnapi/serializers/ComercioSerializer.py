@@ -32,12 +32,12 @@ class ComercioSerializer(serializers.Serializer):
 
         for itens in data['sobrevivente1']['itens']:
             if itens["quantidade"] <= 0:
-                raise serializers.ValidationError('Quantidade de pontos negativa')
+                raise serializers.ValidationError('Quantidade de pontos menor que 1')
             countPoints1 += itens["pontos"] * itens["quantidade"]
         
         for itens in data['sobrevivente2']['itens']:
             if itens["quantidade"] <= 0:
-                raise serializers.ValidationError('Quantidade de pontos negativa')
+                raise serializers.ValidationError('Quantidade de pontos menor que 1')
             countPoints2 += itens["pontos"] * itens["quantidade"]
 
         if countPoints1 != countPoints2:
