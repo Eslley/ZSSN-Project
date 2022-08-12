@@ -89,7 +89,7 @@
 
 <script>
 
-  import Comercio from '../services/Comercio';
+  import Comercio from '../services/comercio';
   import Inventarios from '../services/inventarios';
   import Message from './Message.vue'
 
