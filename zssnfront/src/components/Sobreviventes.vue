@@ -85,7 +85,7 @@
 
             <div class="center-align save-button">
                 <button @click="clear()" class="waves-effect waves-light btn-small">Limpar<i class="material-icons left">clear</i></button>
-                <button @click="saveOrEdit()" class="waves-effect waves-light btn-small blue">Salvar<i class="material-icons left">save</i></button>
+                <button @click="saveOrEdit()" class="waves-effect waves-light btn-small blue modal-trigger">Salvar<i class="material-icons left">save</i></button>
             </div>
       </form>
 
@@ -127,7 +127,7 @@
             <td >
                 <div class="center-align">
                     <button @click="preEdit(sobrevivente)" class="waves-effect btn-small blue darken-1"><i class="material-icons">edit_location</i></button>
-                    <button @click="showModalAlert(sobrevivente)" class="waves-effect btn-small red darken-1"><i class="material-icons">warning</i></button>
+                    <button @click="infected = sobrevivente" data-target="modalContaminacao" class="waves-effect btn-small red darken-1 modal-trigger"><i class="material-icons">warning</i></button>
                 </div>
             </td>
 
@@ -137,6 +137,17 @@
       
       </table>
 
+        <div id="modalContaminacao" class="modal">
+            <div class="modal-content">
+                <h4>Alerta de Contaminação!</h4>
+                <p>Digite o ID do informante da contaminação de {{ infected.nome }}:</p>
+                <input type="number" placeholder="Id do informante" v-model="infoId">
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <a @click="alertaInfeccao()" href="#!" class="modal-close waves-effect waves-green btn-flat">Confirmar</a>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -165,7 +176,9 @@
                 itens: [],
                 inventario: [],
                 msg: "",
-                edit: false
+                edit: false,
+                infected: {},
+                infoId: ""
             }
         },
 
@@ -233,7 +246,6 @@
                         this.showMessage(response.data.message)
                     }
                 }).catch(err => {
-                    console.log(err)
                     this.showMessage("Erro ao atualizar")
                 })
             },
@@ -270,6 +282,17 @@
             clear() {
                 this.edit = false
                 this.sobrevivente = {}
+            },
+
+            alertaInfeccao() {
+               Sobreviventes.alertInfected(this.infoId, this.infected.id).then(response => {
+                if(response.status == 200) {
+                    this.showMessage(response.data.message)
+                    this.listar()
+                }
+               }).catch(err => {
+                    this.showMessage(err.message)
+               })
             }
 
         }
