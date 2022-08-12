@@ -8,12 +8,17 @@
 
       <form @submit.prevent="salvar">
 
-          <label>Nome</label>
-          <input type="text" placeholder="Nome" v-model="item.nome" >
-          
-          <label>Pontos</label>
-          <input type="number" placeholder="Pontos" v-model="item.pontos" >
+        <div class="row">
+          <div class="input-field col s12 m12">
+            <label>Nome</label>
+            <input type="text" placeholder="Nome" v-model="item.nome" >
+          </div>
+        </div>
 
+          <div class="input-field">
+            <label>Pontos</label>
+            <input type="number" placeholder="Pontos" v-model="item.pontos" >
+          </div>
           <div class="center-align">
             <button class="waves-effect waves-light btn-small blue">Salvar<i class="material-icons left">save</i></button>
           </div>

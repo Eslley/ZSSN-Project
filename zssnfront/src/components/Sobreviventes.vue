@@ -8,26 +8,37 @@
 
         <form action="#" @submit.prevent="">
 
-            <label>Nome</label>
-            <input :disabled="edit" type="text" placeholder="Nome" v-model="sobrevivente.nome" >
-            
-            <label>Idade</label>
-            <input :disabled="edit" type="number" placeholder="Idade" v-model="sobrevivente.idade" >
+            <div class="row">
+                <div class="input-field col l10 s12">
+                <label :class="{ active: edit }">Nome</label>
+                <input :disabled="edit" type="text" v-model="sobrevivente.nome" >
+                </div>
+                
+                <div class="input-field col l2 s12">
+                <label :class="{ active: edit }">Idade</label>
+                <input :disabled="edit" type="number" v-model="sobrevivente.idade" >
+                </div>
+            </div>
 
-            <label>Sexo</label>
-            
-            <p>
-                <label>
-                    <input :disabled="edit" name="group1" type="radio" value="m" v-model="sobrevivente.sexo" />
-                    <span>Masculino</span>
-                </label>
-            </p>
-            <p>
-                <label>
-                    <input :disabled="edit" name="group1" type="radio" value="f" v-model="sobrevivente.sexo" />
-                    <span>Feminino</span>
-                </label>
-            </p>
+            <div class="row">
+                <div class="col m1 s12">
+                    <label>Sexo</label>
+                </div>
+
+                <div class="col m2 s16">
+                    <label>
+                        <input :disabled="edit" name="group1" type="radio" value="m" v-model="sobrevivente.sexo" />
+                        <span>Masculino</span>
+                    </label>
+                </div>
+
+                <div class="col m2 s6">
+                    <label>
+                        <input :disabled="edit" name="group1" type="radio" value="f" v-model="sobrevivente.sexo" />
+                        <span>Feminino</span>
+                    </label>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col l6 s12">
@@ -42,7 +53,7 @@
             </div>
 
 
-            <label v-show="!edit" >Itens do sobrevivente</label>
+            <label v-show="!edit" >Insira a quantidade de itens do sobrevivente</label>
 
             <table v-show="!edit" class="center">
 
@@ -83,13 +94,14 @@
         <thead>
 
           <tr>
+            <th>Id</th>
             <th>Nome</th>
-            <th>Idade</th>
-            <th>Sexo</th>
+            <!-- <th>Idade</th>
+            <th>Sexo</th> -->
             <th>Latitude</th>
             <th>Longitude</th>
             <th class="center-align">Infectado</th>
-            <th>Alertas</th>
+            <th class="center-align">Alertas</th>
 
             <th class="center-align">Opções</th>
           </tr>
@@ -100,16 +112,17 @@
 
           <tr v-for="sobrevivente in sobreviventes" :key="sobrevivente.id">
 
+            <td>{{ sobrevivente.id }}</td>
             <td>{{ sobrevivente.nome }}</td>
-            <td>{{ sobrevivente.idade }}</td>
-            <td>{{ sobrevivente.sexo.toUpperCase() }}</td>
+            <!-- <td>{{ sobrevivente.idade }}</td>
+            <td>{{ sobrevivente.sexo.toUpperCase() }}</td> -->
             <td>{{ sobrevivente.latitude }}</td>
             <td>{{ sobrevivente.longitude }}</td>
             <td class="center-align">
                 <img v-show="sobrevivente.estaInfectado" class="zombie-img" alt="sobrevivente infectado" src="../assets/zombie2.png">
                 <span v-show="!sobrevivente.estaInfectado">Não</span>
             </td>
-            <td>{{ sobrevivente.countAlertInfected }}</td>
+            <td class="center-align">{{ sobrevivente.countAlertInfected }}</td>
 
             <td >
                 <div class="center-align">

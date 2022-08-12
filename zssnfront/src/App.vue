@@ -75,6 +75,15 @@ export default {
 
 <style>
 
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+  .main {
+      flex: 1 0 auto;
+  }
+
   nav {
     margin-bottom: 1rem;
   }
@@ -100,6 +109,14 @@ export default {
   .subtitle-page .material-icons {
       display: inline-flex;
       vertical-align: top;
+  }
+
+  nav .brand-logo {
+    font-size: 1.9rem !important;
+  }
+
+  .nav-wrapper {
+    padding-left: 20px;
   }
 
 </style>
