@@ -4,30 +4,26 @@
         
         <h4 class="center-align subtitle-page"><i class="material-icons">report</i> Relatórios da ZSSN</h4>
 
-        <form>
-
-            <label><b>Total de Sobreviventes</b></label>
-            <input type="text" disabled="true" v-model="relatorios.total_sobreviventes" >
-            
-            <label><b>Total de Infectados</b></label>
-            <input type="text" disabled="true" v-model="relatorios.infectados" >
-
-            <label><b>Total de Não Infectados</b></label>
-            <input type="text" disabled="true" v-model="relatorios.nao_infectados" ><br><br>
-
-            <label><b>Média de recursos por Sobrevivente:</b></label>
-            <div v-for="item in relatorios.media_itens" :key="item.index">
-                <label>{{ item.item }}</label>
-                <input type="text" disabled="true" :value="item.media" >
-            </div><br>
-
-            <label><b>Pontos perdidos por Sobrevivente infectado:</b></label>
-            <div v-for="sobrevivente in relatorios.pontos_perdidos" :key="sobrevivente.index">
-                <label>{{ sobrevivente.nome }}</label>
-                <input type="text" disabled="true" :value="sobrevivente.pontos_perdidos" >
-            </div> 
+        <label><b>Total de Sobreviventes</b></label>
+        <input type="text" disabled="true" v-model="relatorios.total_sobreviventes" >
         
-      </form>
+        <label><b>Total de Infectados</b></label>
+        <input type="text" disabled="true" v-model="relatorios.infectados" >
+
+        <label><b>Total de Não Infectados</b></label>
+        <input type="text" disabled="true" v-model="relatorios.nao_infectados" ><br><br>
+
+        <label><b>Média de recursos por Sobrevivente:</b></label>
+        <div v-for="item in relatorios.media_itens" :key="item.index">
+            <label>{{ item.item }}</label>
+            <input type="text" disabled="true" :value="item.media" >
+        </div><br>
+
+        <label><b>Pontos perdidos por Sobrevivente infectado:</b></label>
+        <div v-for="sobrevivente in relatorios.pontos_perdidos" :key="sobrevivente.index">
+            <label>{{ sobrevivente.nome }}</label>
+            <input type="text" disabled="true" :value="sobrevivente.pontos_perdidos" >
+        </div> 
 
     </div>
 
