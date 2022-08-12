@@ -1,12 +1,12 @@
 # ZSSN (Rede Social de Sobrevivência Zumbi)
 
-Para utilizar a webpage acesse [https://github.com/Eslley/ZSSN-Project](https://github.com/Eslley/ZSSN-Project)
+Para utilizar a webpage acesse https://zssnsystem.herokuapp.com/
 
 
 # **Documentação API - ZSSN**
 Documentação para utilizar a API da ZSSN
 
-URL Base: https://zssnsystem.herokuapp.com/
+URL Base: https://zssn-pr0j3ct.herokuapp.com/
 
 ## **Sobrevivente**
 Representa os usuários da ZSSN
