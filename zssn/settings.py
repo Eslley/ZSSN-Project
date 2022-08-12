@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://zssn-pr0j3ct.herokuapp.com/']
+ALLOWED_HOSTS = ['https://zssnsystem.herokuapp.com/']
 
 
 # Application definition
