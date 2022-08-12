@@ -9,19 +9,22 @@
       <form @submit.prevent="salvar">
 
         <div class="row">
-          <div class="input-field col s12 m12">
-            <label>Nome</label>
-            <input type="text" placeholder="Nome" v-model="item.nome" >
-          </div>
-        </div>
 
-          <div class="input-field">
+          <div class="input-field col m10 s12">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" placeholder="Nome" v-model="item.nome" >
+          </div>
+
+          <div class="input-field col m2 s12">
             <label>Pontos</label>
             <input type="number" placeholder="Pontos" v-model="item.pontos" >
           </div>
-          <div class="center-align">
-            <button class="waves-effect waves-light btn-small blue">Salvar<i class="material-icons left">save</i></button>
-          </div>
+
+        </div>
+        
+        <div class="center-align">
+          <button class="waves-effect waves-light btn-small blue">Salvar<i class="material-icons left">save</i></button>
+        </div>
       </form>
 
       <table class="center">

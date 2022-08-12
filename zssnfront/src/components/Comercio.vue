@@ -39,7 +39,7 @@
               <span>Itens Ofertados:</span>
               <div class="collection">
                 <a href="#!" v-for="(item, index) in comercio.sobrevivente1.itens" :key="item.index" class="collection-item">
-                  {{ item.item.nome }}: <span class="badge">{{ item.quantidade }} 
+                  {{ item.item.nome }}: <span class="badge">Quantidade {{ item.quantidade }} 
                   <button @click="removeItem1(index)" class=" btn-small">Retirar 1<i class="material-icons left">arrow_back</i></button></span>
                 </a>
               </div>
@@ -67,7 +67,7 @@
               <span>Itens Ofertados:</span>
               <div class="collection">
                 <a href="#!" v-for="(item, index) in comercio.sobrevivente2.itens" :key="item.index" class="collection-item">
-                  {{ item.item.nome }}: <span class="badge">{{ item.quantidade }}
+                  {{ item.item.nome }}: <span class="badge">Quantidade {{ item.quantidade }}
                   <button @click="removeItem2(index)" class="waves-effect waves-light btn-small">Retirar 1<i class="material-icons left">arrow_back</i></button></span>
                 </a>
               </div>
@@ -140,7 +140,7 @@
         this.totalPontos1 = 0
         this.totalPontos2 = 0
 
-        if(this.id1 == this.id2 || this.id1 == undefined || this.id2 == undefined ){
+        if(this.id1 == this.id2 || this.id1 == "" || this.id2 == "" ){
           this.showMessage("Preencha os campos corretamente!")
         } else {
 

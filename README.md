@@ -1,13 +1,14 @@
 # ZSSN (Rede Social de Sobrevivência Zumbi)
 
-Para utilizar a plataforma acesse [zssn-pr0j3ct.herokuapp.com](zssn-pr0j3ct.herokuapp.com)
+Para utilizar a webpage acesse [zssnsystem.herokuapp.com](zssnsystem.herokuapp.com)
 
 
 # **Documentação API - ZSSN**
 Documentação para utilizar a API da ZSSN
+URL Base: https://zssnsystem.herokuapp.com/
 
 ## **Sobrevivente**
-Representa os usuários da API da ZSSN
+Representa os usuários da ZSSN
 
 
 * **GET /sobreviventes/**
@@ -74,7 +75,7 @@ Cadastra um novo sobrevivente no sistema junto com os itens declarados
 
 
 * **PUT /sobreviventes/update/{idSobrevivente}/localization/**
-Atualizada latitude e longitude do sobrevivente
+Atualiza a latitude e longitude do sobrevivente
 
     Request:
     ```
@@ -133,8 +134,8 @@ Fornece dados de relatório
     ```
     {
       "total_sobreviventes": 5,
-      "infectados": "40%",
-      "nao_infectados": "60%",
+      "infectados": "40",
+      "nao_infectados": "60",
       "media_itens": [
         {
           "item": "agua",
