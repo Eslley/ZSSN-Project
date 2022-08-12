@@ -98,8 +98,8 @@
             <th>Nome</th>
             <!-- <th>Idade</th>
             <th>Sexo</th> -->
-            <th>Latitude</th>
-            <th>Longitude</th>
+            <!-- <th>Latitude</th>
+            <th>Longitude</th> -->
             <th class="center-align">Infectado</th>
             <th class="center-align">Alertas</th>
 
@@ -116,8 +116,8 @@
             <td>{{ sobrevivente.nome }}</td>
             <!-- <td>{{ sobrevivente.idade }}</td>
             <td>{{ sobrevivente.sexo.toUpperCase() }}</td> -->
-            <td>{{ sobrevivente.latitude }}</td>
-            <td>{{ sobrevivente.longitude }}</td>
+            <!-- <td>{{ sobrevivente.latitude }}</td>
+            <td>{{ sobrevivente.longitude }}</td> -->
             <td class="center-align">
                 <img v-show="sobrevivente.estaInfectado" class="zombie-img" alt="sobrevivente infectado" src="../assets/zombie2.png">
                 <span v-show="!sobrevivente.estaInfectado">Não</span>
@@ -127,7 +127,7 @@
             <td >
                 <div class="center-align">
                     <button @click="preEdit(sobrevivente)" class="waves-effect btn-small blue darken-1"><i class="material-icons">edit_location</i></button>
-                    <button @click="infected = sobrevivente" data-target="modalContaminacao" class="waves-effect btn-small red darken-1 modal-trigger"><i class="material-icons">warning</i></button>
+                    <button @click="alertaInfeccao(sobrevivente)" class="waves-effect btn-small red darken-1"><i class="material-icons">warning</i></button>
                 </div>
             </td>
 
@@ -137,7 +137,7 @@
       
       </table>
 
-        <div id="modalContaminacao" class="modal">
+        <!-- <div id="modalContaminacao" class="modal">
             <div class="modal-content">
                 <h4>Alerta de Contaminação!</h4>
                 <p>Digite o ID do informante da contaminação de {{ infected.nome }}:</p>
@@ -147,7 +147,7 @@
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
                 <a @click="alertaInfeccao()" href="#!" class="modal-close waves-effect waves-green btn-flat">Confirmar</a>
             </div>
-        </div>
+        </div> -->
     </div>
 
 </template>
@@ -192,10 +192,6 @@
         },
 
         methods: {
-
-            showModalAlert() {
-
-            },
 
             scrollToTop() {
                 window.scrollTo(0,0);
@@ -286,15 +282,22 @@
                 this.sobrevivente = {}
             },
 
-            alertaInfeccao() {
-               Sobreviventes.alertInfected(this.infoId, this.infected.id).then(response => {
-                if(response.status == 200) {
-                    this.showMessage(response.data.message)
-                    this.listar()
+            alertaInfeccao(sobrevivente) {
+                this.infoId = prompt(`Digite o ID do informante da contaminação de ${sobrevivente.nome}:`)
+
+                if(!isNaN(this.infoId)) {
+
+                    Sobreviventes.alertInfected(this.infoId, sobrevivente.id).then(response => {
+                        if(response.status == 200) {
+                            this.showMessage(response.data.message)
+                            this.listar()
+                        }
+                    }).catch(err => {
+                            this.showMessage(err.message)
+                    })
+                } else {
+                    this.showMessage("Digite um valor numerico!")
                 }
-               }).catch(err => {
-                    this.showMessage(err.message)
-               })
             }
 
         }
