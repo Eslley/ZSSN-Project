@@ -2,6 +2,8 @@
 
     <div class="container">
         
+        <Loading :isLoading="isLoading"/>
+
         <h4 class="center-align subtitle-page"><i class="material-icons">report</i> Relatórios da ZSSN</h4>
 
         <label><b>Total de Sobreviventes</b></label>
@@ -32,15 +34,21 @@
 <script>
 
     import Sobreviventes from '../services/sobreviventes'
+    import Loading from './Loading.vue'
 
     export default {
         name: "Relatorios",
         
         data() {
             return {
-                relatorios: {}
+                relatorios: {},
+                isLoading: false
             }
         },
+
+        components: {
+            Loading
+        },  
 
         mounted() {
             this.getRelatorios()
@@ -49,6 +57,7 @@
         methods: {
 
             getRelatorios() {
+                this.isLoading = true
                 Sobreviventes.getRelatorios().then(response => {
                     this.relatorios = response.data
 
@@ -65,8 +74,10 @@
                         e.pontos_perdidos = e.pontos_perdidos + " pontos"
                     });
 
+                    this.isLoading = false
                 }).catch(err => {
                     console.log(err)
+                    this.isLoading = false
                 })
             }
 

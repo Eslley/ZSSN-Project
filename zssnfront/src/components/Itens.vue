@@ -6,6 +6,8 @@
 
       <Message :msg="msg" v-show="msg" />
 
+      <Loading :isLoading="isLoading"/>
+
       <form @submit.prevent="salvar">
 
         <div class="row">
@@ -77,6 +79,7 @@
 
   import Itens from '../services/itens';
   import Message from './Message.vue';
+  import Loading from './Loading.vue'
 
   export default {
     name: 'Itens',
@@ -90,12 +93,14 @@
         itens: [],
         errors: [],
         msg: "",
-        itemD: {}
+        itemD: {},
+        isLoading: false
       }
     },
 
     components: {
-      Message
+      Message,
+      Loading
     },
 
     mounted() {
@@ -110,12 +115,15 @@
       },
       
       listar() {
+        this.isLoading = true
         Itens.listar().then(response => {
           this.itens = response.data;
+          this.isLoading = false
         })
       },
 
       salvar() {
+        this.isLoading = true
         Itens.salvar(this.item).then(response => {
 
           if(response.status == 201) {
@@ -123,22 +131,29 @@
             this.item = {}
             this.showMessage("Item adicionado!")
           }
+
+          this.isLoading = false
           
         }).catch(err => { 
           this.showMessage("Erro ao salvar")
           this.errors = err.response.data
+          this.isLoading = false
         })
       },
 
       deletar() {
+        this.isLoading = true
         Itens.deletar(this.itemD).then(response => {
           if(response.status == 200) {
               this.listar()
               this.showMessage("Item deletado!")
-          }            
+          }    
+          
+          this.isLoading = false
           
         }).catch(err => {
           this.showMessage("Erro ao deletar")
+          this.isLoading = false
         })
         
       }

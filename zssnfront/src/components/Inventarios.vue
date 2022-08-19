@@ -2,7 +2,9 @@
 
   <div class="container">
       
-      <h4 class="center-align subtitle-page"><i class="material-icons">domain</i> Inventários</h4>
+    <h4 class="center-align subtitle-page"><i class="material-icons">domain</i> Inventários</h4>
+
+    <Loading :isLoading="isLoading"/>
 
     <table class="center">
 
@@ -41,14 +43,20 @@
 <script>
 
     import Inventarios from '../services/inventarios'
+    import Loading from './Loading.vue'
 
     export default {
         name: "Inventarios",
 
         data() {
           return {
-              inventarios: []
+              inventarios: [],
+              isLoading: false
           }
+        },
+
+        components: {
+          Loading
         },
 
         mounted() {
@@ -57,10 +65,12 @@
 
         methods: {
           getInventarios() {
+            this.isLoading = true
               Inventarios.listar().then(response => {
                   this.inventarios = response.data.inventarios
+                  this.isLoading = false
               }).catch(err => {
-
+                this.isLoading = false
               })
           }
         }

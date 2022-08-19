@@ -24,7 +24,7 @@
     </nav>
 
     <Itens v-show="page == 'itens'" />
-    <Sobreviventes v-if="page == 'sobreviventes'" />
+    <Sobreviventes v-show="page == 'sobreviventes'" />
     <Inventarios v-if="page == 'inventarios'" />
     <Comercio v-if="page == 'comercio'"/>
     <Relatorios v-if="page == 'relatorios'" />
@@ -58,7 +58,6 @@ export default {
     Sobreviventes,
     Inventarios,
     Relatorios,
-    Comercio,
     Comercio
 }
   

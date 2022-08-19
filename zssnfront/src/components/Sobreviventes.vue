@@ -6,7 +6,9 @@
 
         <Message :msg="msg" v-show="msg" />
 
-        <form action="#" @submit.prevent="">
+        <Loading :isLoading="isLoading"/>
+
+        <form v-show="edit || add" action="#" @submit.prevent="">
 
             <div class="row">
                 <div class="input-field col l10 s12">
@@ -84,12 +86,14 @@
             </table>
 
             <div class="center-align save-button">
-                <button @click="clear()" class="waves-effect waves-light btn-small">Limpar<i class="material-icons left">clear</i></button>
+                <button @click="clear()" class="waves-effect waves-light btn-small">Fechar<i class="material-icons left">clear</i></button>
                 <button @click="saveOrEdit()" class="waves-effect waves-light btn-small blue modal-trigger">Salvar<i class="material-icons left">save</i></button>
             </div>
       </form>
 
-      <table class="center">
+        <a @click="showForm()" v-show="!add && !edit" class="waves-effect waves-light btn"><i class="material-icons left">add</i>Adicionar</a>
+      
+      <table v-show="!add && !edit" class="center">
 
         <thead>
 
@@ -113,7 +117,7 @@
           <tr v-for="sobrevivente in sobreviventes" :key="sobrevivente.id">
 
             <td>{{ sobrevivente.id }}</td>
-            <td>{{ sobrevivente.nome }}</td>
+            <td><a @click="moreInfo = sobrevivente" data-target="moreInfo" class="more-info-link modal-trigger">{{ sobrevivente.nome }}</a></td>
             <!-- <td>{{ sobrevivente.idade }}</td>
             <td>{{ sobrevivente.sexo.toUpperCase() }}</td> -->
             <!-- <td>{{ sobrevivente.latitude }}</td>
@@ -126,8 +130,8 @@
 
             <td >
                 <div class="center-align">
-                    <button @click="preEdit(sobrevivente)" class="waves-effect btn-small blue darken-1"><i class="material-icons">edit_location</i></button>
-                    <button @click="alertaInfeccao(sobrevivente)" class="waves-effect btn-small red darken-1"><i class="material-icons">warning</i></button>
+                    <button :disabled="sobrevivente.estaInfectado" @click="preEdit(sobrevivente)" class="waves-effect btn-small blue darken-1"><i class="material-icons">edit_location</i></button>
+                    <button @click="infected = sobrevivente" :disabled="sobrevivente.estaInfectado" data-target="modalContaminacao" class="waves-effect btn-small red darken-1 modal-trigger"><i class="material-icons">warning</i></button>
                 </div>
             </td>
 
@@ -137,7 +141,7 @@
       
       </table>
 
-        <!-- <div id="modalContaminacao" class="modal">
+        <div id="modalContaminacao" class="modal">
             <div class="modal-content">
                 <h4>Alerta de Contaminação!</h4>
                 <p>Digite o ID do informante da contaminação de {{ infected.nome }}:</p>
@@ -147,7 +151,20 @@
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
                 <a @click="alertaInfeccao()" href="#!" class="modal-close waves-effect waves-green btn-flat">Confirmar</a>
             </div>
-        </div> -->
+        </div>
+
+        <div id="moreInfo" class="modal">
+            <div class="modal-content">
+                <h4>{{moreInfo.nome}}</h4>
+                <span><b>Idade:</b> {{moreInfo.idade}}</span><br>
+                <span><b>Sexo:</b> {{ moreInfo.sexo == "m" ? "Masculino" : "Feminino"}}</span><br>
+                <span><b>Latitude:</b> {{moreInfo.latitude}}</span><br>
+                <span><b>Longitude:</b> {{moreInfo.longitude}}</span><br>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -157,6 +174,7 @@
     import Sobreviventes from '../services/sobreviventes';
     import Itens from '../services/itens';
     import Message from './Message.vue'
+    import Loading from './Loading.vue'
 
     export default {
 
@@ -177,18 +195,25 @@
                 inventario: [],
                 msg: "",
                 edit: false,
+                add: false,
                 infected: {},
-                infoId: ""
+                infoId: "",
+                isLoading: false,
+                moreInfo: {}
             }
         },
 
         components: {
-            Message
+            Message,
+            Loading,
+        },
+
+        beforeCreate() {
+            this.isLoading = true
         },
 
         mounted() {
             this.listar()
-            this.listarItens()
         },
 
         methods: {
@@ -204,6 +229,7 @@
             },
             
             salvar() {
+                this.isLoading = true
                 this.itens.forEach(item => {
                     if(parseInt(item.quantidade) > 0)
                         this.inventario.push({
@@ -220,9 +246,11 @@
                         this.sobrevivente = {}
                         this.itens = []
                         this.inventario = []
+                        this.add = false
                         this.listarItens()
                     } else {
                         this.showMessage(response.data.message)
+                        this.isLoading = false
                     }
                 }).catch(err => {
                     if (err.response.data.message)  
@@ -230,21 +258,26 @@
                     else{
                         this.showMessage("Erro ao salvar")
                     }
+                    this.isLoading = false
                 })
 
             },
 
             editar() {
+                this.isLoading = true
                 Sobreviventes.atualizarLocalizacao(this.sobrevivente).then(response => {
                     if(response.status == 200) {
                         this.edit = false
                         this.showMessage(`Localização de ${this.sobrevivente.nome} atualizada!`)
                         this.sobrevivente = {}
+                        this.isLoading = false
                     } else {
                         this.showMessage(response.data.message)
+                        this.isLoading = false
                     }
                 }).catch(err => {
                     this.showMessage("Erro ao atualizar")
+                    this.isLoading = false
                 })
             },
 
@@ -257,17 +290,21 @@
             },
 
             listar() {
+                this.isLoading = true
                 Sobreviventes.listar().then(response => {
                     this.sobreviventes = response.data
+                    this.isLoading = false
                 })
             },
 
             listarItens() {
+                this.isLoading = true
                 Itens.listar().then(response => {
                     this.itens = response.data
                     this.itens.forEach(e => {
                         e.quantidade = 0
                     })
+                    this.isLoading = false
                 })
             },
 
@@ -279,25 +316,37 @@
 
             clear() {
                 this.edit = false
+                this.add = false
                 this.sobrevivente = {}
             },
 
-            alertaInfeccao(sobrevivente) {
-                this.infoId = prompt(`Digite o ID do informante da contaminação de ${sobrevivente.nome}:`)
-
-                if(!isNaN(this.infoId)) {
-
-                    Sobreviventes.alertInfected(this.infoId, sobrevivente.id).then(response => {
+            alertaInfeccao() {
+                
+                if(this.infoId != "") {
+                    Sobreviventes.alertInfected(this.infoId, this.infected.id).then(response => {
                         if(response.status == 200) {
                             this.showMessage(response.data.message)
                             this.listar()
+                            this.infoId = ""
+                            this.infected = {}
                         }
                     }).catch(err => {
-                            this.showMessage(err.message)
+                        if (err.response.data.message)  
+                            this.showMessage(err.response.data.message)
+                        else
+                            this.showMessage("Erro ao sinalizar contaminação!")
                     })
+
                 } else {
-                    this.showMessage("Digite um valor numerico!")
+                    this.showMessage("Digite um valor válido!")
                 }
+                
+            },
+
+            showForm() {
+                this.add = true;
+                this.itens = []
+                this.listarItens()
             }
 
         }
@@ -319,4 +368,19 @@
     .td-input {
         width: 50px;
     }
+
+    #moreInfo {
+        top: 30% !important;
+    }
+
+    @media screen and (min-width: 800px) {
+        #moreInfo {
+            max-width: 20%;
+        }
+    }
+
+    .more-info-link {
+        cursor: pointer;
+    }
+
 </style>
