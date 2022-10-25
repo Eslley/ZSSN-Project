@@ -149,6 +149,8 @@ def relatorios(request):
 
             infectados = totalInfectados/totalSobreviventes
             relatorios['total_sobreviventes'] = totalSobreviventes
+            relatorios['total_infectados'] = totalInfectados
+            relatorios['total_nao_infectados'] = totalSobreviventes - totalInfectados
             relatorios['infectados'] = str(infectados * 100 )
             relatorios['nao_infectados'] = str((1 - infectados) * 100)
 
